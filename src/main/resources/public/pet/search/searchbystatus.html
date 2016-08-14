@@ -1,0 +1,40 @@
+<div class="col-md-3">
+    <fieldset>
+        <legend>
+            Petstore Content
+        </legend>
+
+        <div class="form-group">
+            <label for="">Status:</label>
+            <div ng-repeat="status in dropdownsContent.statuses">
+                <div class="checkbox checkbox-success" ng-show="$index>0">
+                    <input type="checkbox" class="styled" value="{{$index}}" ng-checked="isStatusSelected($index)" ng-click="toggleStatusSelection($index)"/>
+                    <label for="inlineCheckbox{{$index}}"></label>
+                    {{status}}
+                </div>
+            </div>
+            <button ng-click="findPetsByStatuses()" class="btn btn-default" type="button">Search By Status</button>
+        </div>
+
+        <table class="table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 50px">ID</th>
+                    <th style="width: 200px">Name</th>
+                    <th style="width: 200px">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pet in pets">
+                    <td>{{pet['id']}}</td>
+                    <td>{{pet['name']}}</td>
+                    <td>
+                        <button ng-click="deletePet(pet['id'], $index)" class="btn btn-default">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+
+</div>

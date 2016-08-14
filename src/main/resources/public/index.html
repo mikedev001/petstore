@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="PetstoreApp" lang="en">
+    <head>
+        <link rel="stylesheet" href="./css/font-awesome.css" type="text/css"/>
+        <link rel="stylesheet" href="./css/bootstrap.css" type="text/css"/>
+        <link rel="stylesheet" href="./css/build.css" type="text/css"/>
+    </head>
+    <body>
+        <div ng-controller="PetstoreController" class="container">
+
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <span class="navbar-brand">AngularJS Petstore</span>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#!/new">Add Pet</a></li>
+                        <li><a href="#!/searchbyid">Search By ID</a></li> 
+                        <li><a href="#!/searchbystatus">Search By Status</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <alerts></alerts>
+
+            <div class="row">
+                <div ng-view></div>
+            </div>
+
+            <script type="text/javascript" src="js/angular.js"></script>
+            <script type="text/javascript" src="js/angular-resource.js"></script>
+            <script type="text/javascript" src="js/angular-route.js"></script>
+            <script type="text/javascript" src="js/jquery-3.1.0.js"></script>
+            <script type="text/javascript" src="js/bootstrap.js"></script>
+            <script type="text/javascript" src="services.js"></script>
+            <script type="text/javascript" src="directives.js"></script>
+            <script src="pet/form/new.js"></script>
+            <script src="pet/form/edit.js"></script>
+            <script src="pet/search/searchbyid.js"></script>
+            <script src="pet/search/searchbystatus.js"></script>
+            <script src="app.js"></script>
+    </body>
+</html>

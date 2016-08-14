@@ -1,0 +1,46 @@
+<div class="row">
+
+<div class="col-md-6">
+    <fieldset>
+        <legend>
+            Pet Details
+        </legend>
+
+        <div class="form-group">
+            <input id="petIdF" type="text" ng-model="petIdToFind" class="form-control" style="width:50px;float:left;"/>
+            <button ng-click="findPetById(petIdToFind)" class="btn btn-default" type="button">Search By ID</button>
+            <button ng-show="!isNullOrEmptyOrUndefined(petToFind['id'])" ng-click="editPet()" class="btn btn-default" type="button">Edit</button>
+        </div>
+
+        <div class="form-group">
+            <label for="">ID:</label>&nbsp;{{petToFind['id']}}
+        </div>
+        <div class="form-group">
+            <label for="">Name:</label>&nbsp;{{petToFind['name']}}
+        </div>
+        <div class="form-group">
+            <label for="">Category:</label>&nbsp;{{petToFind['category']['name']}}
+        </div>
+        <div class="form-group">
+            <label for="">Status:</label>&nbsp;{{petToFind['status']}}
+        </div>
+        <div class="form-group">
+            <label for="">Tags:</label>
+            <ul class="list-unstyled">
+                <li ng-repeat="tag in petToFind['tags']">
+                    {{tag['name']}}
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <label for="">Photo Urls:</label>
+            <ul class="list-unstyled">
+                <li ng-repeat="photoUrl in petToFind['photoUrls']">
+                    {{photoUrl}}
+                </li>
+            </ul>
+        </div>
+
+    </fieldset>
+</div>
+</div>

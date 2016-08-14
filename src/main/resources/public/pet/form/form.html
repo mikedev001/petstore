@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-md-4">
+        <fieldset>
+            <legend>
+                Pet Creation Form
+            </legend>
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <fieldset>
+
+
+            <div class="form-group">
+                <label for="petName">Name:</label>
+                <input id="petName" type="text" ng-model="newPet['name']" class="form-control" style="width:250px"/>
+            </div>
+            <div class="form-group">
+                <label for="petCategory">Category:</label>
+                
+                <select ng-model="newPet['selectedCategory']" ng-options="category.id as category.name for category in dropdownsContent.categories" class="form-control" style="width:125px"></select>
+               
+            </div>
+            <div class="form-group">
+                <label for="petStatus">Status:</label>
+                <select id="petStatus" ng-model="newPet['status']" ng-options="status for status in dropdownsContent.statuses" class="form-control" style="width:125px"></select>
+            </div>
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-4">
+
+        <fieldset>
+
+            <div class="form-group">
+                <label for="">Tags:</label>
+                <div ng-repeat="tag in dropdownsContent.tags">
+                    <div class="checkbox checkbox-success">
+                        <input id="inlineCheckbox{{tag['id']}}" type="checkbox" class="styled" value="{{tag['id']}}" ng-checked="isCheckboxSelected(tag['id'])" ng-click="toggleTagsSelection(tag['id'])"/>
+                        <label for="inlineCheckbox{{tag['id']}}"></label>
+                        {{tag['name']}}
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+    <div class="col-md-4">
+
+        <fieldset>
+            <div class="form-group">
+                <label for="">Photo Urls:</label>
+                <input id="petPhotoUrls" type="text" ng-model="editedPhotoUrl" class="form-control" style="width:150;float:left;"/>
+                <button ng-click="addPhotoUrl()" class="btn btn-default" type="button">Add</button>
+
+                <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
+                    <li>No Url Selected</li>
+                </ul>
+                
+                <ul class="list-unstyled">
+                    <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls']">
+                        {{selectedPhotoUrl}}
+                    </li>
+                </ul>
+            </div>
+
+
+        </fieldset>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+        <span>
+            <button ng-click="savePet()" class="btn btn-default">Save</button>
+        </span>
+        <span>
+            <button ng-click="clear()" class="btn btn-default">Clear</button>
+        </span>
+    </div>
+</div>
