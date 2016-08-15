@@ -106,7 +106,7 @@
 		        </configuration>
 	        </plugin>
 			<!-- deploy on Bluemix -->
-                        <!--
+                        
 			<plugin>
 		        <groupId>org.cloudfoundry</groupId>
 		        <artifactId>cf-maven-plugin</artifactId>
@@ -114,7 +114,7 @@
 		        <configuration>
 				    <server>Bluemix</server>
 					<target>https://api.ng.bluemix.net</target>
-			        <url>http://ei706petstore.mybluemix.net</url>
+			                <url>http://ei706petstore.mybluemix.net</url>
 					<org>PetStoreWebApp</org>
 					<space>DemoPetStoreWebApp</space>
 					<appname>ei706petstore</appname>
@@ -130,7 +130,7 @@
 						</goals>
 					</execution>
 				</executions>
-	        </plugin>-->
+	        </plugin>
         </plugins>
     </build>
 
