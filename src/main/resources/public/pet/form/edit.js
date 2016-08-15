@@ -54,6 +54,12 @@ angular.module('petstore.edit', ['ngRoute'])
                     } else {
                         $scope.errorMsgsStatus.nameMandatory = false;
                     }
+                    if ($scope.isNullOrEmptyOrUndefined($scope.newPet['status'])) {
+                        $scope.errorMsgsStatus.statusFieldEmpty = true;
+                        return;
+                    } else {
+                        $scope.errorMsgsStatus.statusFieldEmpty = false;
+                    }
                     var pet = {};
                     pet['id'] = $scope.newPet['id'];
                     pet['name'] = $scope.newPet['name'];

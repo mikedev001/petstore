@@ -61,7 +61,12 @@ angular.module('petstore.new', ['ngRoute'])
                     } else {
                         $scope.errorMsgsStatus.nameMandatory = false;
                     }
-
+                    if ($scope.isNullOrEmptyOrUndefined($scope.newPet['status'])) {
+                        $scope.errorMsgsStatus.statusFieldEmpty = true;
+                        return;
+                    } else {
+                        $scope.errorMsgsStatus.statusFieldEmpty = false;
+                    }
                     var pet = {};
 
                     pet['name'] = $scope.newPet['name'];

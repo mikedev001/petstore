@@ -23,7 +23,8 @@ petstoreApplication.controller("PetstoreController", [
             noResultFound: false,
             nameMandatory: false,
             urlFieldEmpty: false,
-            idAlreadyExists: false
+            idAlreadyExists: false,
+            statusFieldEmpty: false
         };
 
         $scope.resetErrorMsgs = function () {
@@ -31,6 +32,7 @@ petstoreApplication.controller("PetstoreController", [
             $scope.errorMsgsStatus.nameMandatory = false;
             $scope.errorMsgsStatus.urlFieldEmpty = false;
             $scope.errorMsgsStatus.idAlreadyExists = false;
+            $scope.errorMsgsStatus.statusFieldEmpty = false;
         };
 
         $scope.resetErrorMsgs();
