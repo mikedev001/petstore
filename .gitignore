@@ -1,1 +1,5 @@
 /target/
+/src/main/resources/public/node_modules/ng-file-upload/demo/target/
+/src/main/resources/public/node_modules/
+nbactions.xml
+nb-configuration.xml

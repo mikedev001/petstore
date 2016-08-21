@@ -1,5 +1,6 @@
 package rbc.petstore;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface PetstoreService {
@@ -20,6 +21,9 @@ public interface PetstoreService {
     
     public List<Pet> findPetsByStatus(String csvStatuses);
     
-    public void initRepositories();
+    public void uploadImage(final InputStream iSImage, String contentType, String name, Long petId);
     
+    public PetImage findImageById(final Long imageId);
+    
+    public List<PetImageLight> getPhotosList(Long petId);
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('petstore.edit', ['ngRoute'])
+angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
 
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/edit', {
@@ -103,4 +103,55 @@ angular.module('petstore.edit', ['ngRoute'])
                         return false;
                     }
                 };
-            }]);
+            }])
+        
+        .controller('ImageUploaderCtrl', ['$scope',
+            '$resource',
+            '$http',
+            '$location',
+            'PetFactory', 'Upload', '$timeout',
+            function ($scope, $resource, $http, $location, PetFactory, Upload, $timeout) {
+
+                $scope.$watch('files', function () {
+                    $scope.upload($scope.files);
+                });
+                $scope.$watch('file', function () {
+                    if ($scope.file != null) {
+                        $scope.files = [$scope.file];
+                    }
+                });
+                $scope.log = '';
+
+                $scope.upload = function (files) {
+                    if (files && files.length) {
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
+                            if (!file.$error) {
+                                Upload.upload({
+                                    url: 'pet/upload',
+                                    data: {
+                                        username: "",
+                                        file: file,
+                                        petId: $scope.newPet.id
+                                    }
+                                }).then(function (resp) {
+                                    $timeout(function () {
+                                        $scope.log = 'file: ' +
+                                                resp.config.data.file.name +
+                                                ', Response: ' + JSON.stringify(resp.data) +
+                                                '\n' + $scope.log;
+                                    });
+                                }, null, function (evt) {
+                                    var progressPercentage = parseInt(100.0 *
+                                            evt.loaded / evt.total);
+                                    $scope.log = 'progress: ' + progressPercentage +
+                                            '% ' + evt.config.data.file.name + '\n' +
+                                            $scope.log;
+                                });
+                            }
+                        }
+                    }
+                    $scope.refreshCarousel();
+                };
+
+            }])

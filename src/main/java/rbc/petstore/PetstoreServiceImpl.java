@@ -1,13 +1,18 @@
 package rbc.petstore;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +25,9 @@ public class PetstoreServiceImpl implements PetstoreService {
     private final PetstoreRepository petstoreRepository;
     private final TagRepository tagRepository;
     private final CategoryRepository categoryRepository;
+
+    @Autowired
+    PetImageRepository petImageRepository;
 
     @Inject
     public PetstoreServiceImpl(final PetstoreRepository petstoreRepository, final TagRepository tagRepository, final CategoryRepository categoryRepository) {
@@ -58,7 +66,7 @@ public class PetstoreServiceImpl implements PetstoreService {
             petTags.add(petTag);
         }
         pet.setTags(petTags);
-        */
+         */
         return petstoreRepository.save(pet);
     }
 
@@ -78,7 +86,7 @@ public class PetstoreServiceImpl implements PetstoreService {
         existing.setStatus(pet.getStatus());
         return petstoreRepository.save(existing);
     }
-    
+
     @Override
     @Transactional
     public Pet findPetById(Long petId) {
@@ -89,14 +97,14 @@ public class PetstoreServiceImpl implements PetstoreService {
         } else {
             return existing;
         }
-    } 
-    
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<Pet> findPetsByStatus(String csvStatuses) {
         return petstoreRepository.findPetsByStatuses(Arrays.asList(csvStatuses.toUpperCase().split(",")));
     }
-    
+
     @Override
     @Transactional
     public void deletePet(Long petId) {
@@ -108,61 +116,68 @@ public class PetstoreServiceImpl implements PetstoreService {
             petstoreRepository.delete(existing);
         }
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<Pet> getPetList() {
         LOGGER.debug("List of pets retrieved");
         return petstoreRepository.findAll();
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<Tag> getTagList() {
         LOGGER.debug("List of tags retrieved");
         return tagRepository.findAll();
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<Category> getCategoryList() {
         LOGGER.debug("List of categories retrieved");
         return categoryRepository.findAll();
     }
-    
+
     @Override
-    @Transactional()
-    public void initRepositories() {
-        LOGGER.debug("init tag repository {}");
-        List<Tag> existingTags = tagRepository.findAll();
-        if ((existingTags != null) && (existingTags.size()==0)) {
-            Tag newTag0 = new Tag(0L, "Tag0");
-            Tag newTag1 = new Tag(1L, "Tag1");
-            Tag newTag2 = new Tag(2L, "Tag2");
-            Tag newTag3 = new Tag(3L, "Tag3");
-            Tag newTag4 = new Tag(4L, "Tag4");
-            tagRepository.save(newTag0);
-            tagRepository.save(newTag1);
-            tagRepository.save(newTag2);
-            tagRepository.save(newTag3);
-            tagRepository.save(newTag4);
-        }
-        
-        LOGGER.debug("init categories repository {}");
-        List<Category> existingCategories = categoryRepository.findAll();
-        if ((existingCategories != null) && (existingCategories.size()==0)) {
-            Category newCategory0 = new Category(0L, "Category0");
-            Category newCategory1 = new Category(1L, "Category1");
-            Category newCategory2 = new Category(2L, "Category2");
-            Category newCategory3 = new Category(3L, "Category3");
-            Category newCategory4 = new Category(4L, "Category4");
-            categoryRepository.save(newCategory0);
-            categoryRepository.save(newCategory1);
-            categoryRepository.save(newCategory2);
-            categoryRepository.save(newCategory3);
-            categoryRepository.save(newCategory4);
-        }
-        
+    @Transactional
+    public void uploadImage(final InputStream iSImage, String contentType, String name, Long petId) {
+        LOGGER.debug("upload image " + name + " service for content type " + contentType + " for pet id " + petId);
+        final PetImage e = new PetImage();
+        e.setName(name);
+        e.setContentType(contentType);
+        e.setPetId(petId);
+        final byte[] image = getImageByteArray(iSImage);
+        e.setImage(image);
+        petImageRepository.saveAndFlush(e);
     }
-    
+
+    private byte[] getImageByteArray(final InputStream inputStream) {
+        byte images[] = null;
+        try {
+            final BufferedImage image = ImageIO.read(inputStream);
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpeg", baos);
+            images = baos.toByteArray();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+        return images;
+    }
+
+    @Override
+    @Transactional
+    public PetImage findImageById(final Long imageId) {
+        return petImageRepository.findOne(imageId);
+    }
+
+    @Override
+    @Transactional
+    public List<PetImageLight> getPhotosList(Long petId) {
+        List<PetImage> list = petImageRepository.findPetImageByPetId(petId);
+        ArrayList<PetImageLight> photosList = new ArrayList<PetImageLight>();
+        for (PetImage item : list) {
+            photosList.add(new PetImageLight(item.getId(), item.getName()));
+        }
+        return photosList;
+    }
 }

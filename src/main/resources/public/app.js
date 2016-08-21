@@ -1,6 +1,6 @@
 'use strict';
 
-var petstoreApplication = angular.module("PetstoreApp", ['ngResource', 'ngRoute', 'petstore.new', 'petstore.edit', 'petstore.searchbyid', 'petstore.searchbystatus', 'petstore.CRUDService', 'petstore.directives']);
+var petstoreApplication = angular.module("PetstoreApp", ['ngResource', 'ngRoute', 'petstore.new', 'petstore.edit', 'petstore.searchbyid', 'petstore.searchbystatus', 'petstore.CRUDService', 'petstore.directives', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 petstoreApplication.config([
     '$locationProvider',
@@ -55,11 +55,11 @@ petstoreApplication.controller("PetstoreController", [
         };
 
         $scope.dropdownsContent = {
-            "categories" : [],
-            "tags" : [],
-            "statuses" : []
+            "categories": [],
+            "tags": [],
+            "statuses": []
         };
-        
+
         $http.get('categories').success(function (result) {
             $scope.dropdownsContent.categories = result;
         }).error(function (data, status, headers, config) {});
@@ -70,5 +70,14 @@ petstoreApplication.controller("PetstoreController", [
 
         $scope.dropdownsContent.statuses = ['', 'Available', 'Pending', 'Sold'];
 
+        $scope.refreshCarousel = function () {
+            $http.get('photos/' + $scope.newPet.id).success(function (result) {
+                $scope.slides = result;
+            }).error(function (data, status, headers, config) {});
+        };
+
+        $scope.myInterval = 5000;
+        $scope.noWrapSlides = false;
+        $scope.active = 0;
     }
 ]);

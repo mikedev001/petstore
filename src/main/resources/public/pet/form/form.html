@@ -20,9 +20,9 @@
             </div>
             <div class="form-group">
                 <label for="petCategory">Category:</label>
-                
+
                 <select ng-model="newPet['selectedCategory']" ng-options="category.id as category.name for category in dropdownsContent.categories" class="form-control" style="width:125px"></select>
-               
+
             </div>
             <div class="form-group">
                 <label for="petStatus">Status:</label>
@@ -61,15 +61,39 @@
                 <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
                     <li>No Url Selected</li>
                 </ul>
-                
+
                 <ul class="list-unstyled">
                     <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls']">
                         {{selectedPhotoUrl}}
                     </li>
                 </ul>
             </div>
-
-
+            
+            <div class="form-group" ng-controller="ImageUploaderCtrl" ng-show="newPet.id">
+                <div ngf-drop ngf-select ng-model="files" class="drop-box" 
+                     ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                     accept="image/*,application/pdf" 
+                     ngf-pattern="'image/*,application/pdf'">Drop pdfs or images here or click to upload</div>
+                <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                Files:
+                <ul>
+                    <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
+                </ul>
+                Upload Log:
+                <pre>{{log}}</pre>
+            </div>
+            
+            <div class="row" style="height: 305px" ng-show="(newPet.id) && (slides.length > 0)">
+                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                    <div uib-slide ng-repeat="slide in slides track by slide.id" index="$index">
+                        <img ng-src="pet/photo/{{slide.id}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4>Slide {{slide.id}}</h4>
+                            <p>{{slide.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </fieldset>
     </div>
 </div>
