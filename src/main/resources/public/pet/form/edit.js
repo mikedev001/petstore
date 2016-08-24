@@ -18,21 +18,7 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
 
                 $scope.resetErrorMsgs();
                 
-                $scope.clear = function () {
-                    $scope.resetErrorMsgs();
-                    $scope.newPet = {
-                        "category": {},
-                        "name": "",
-                        "photoUrls": [],
-                        "status": "",
-                        "tags": [],
-                        "tagsSelection": []
-                    };
-                    $scope.newPet.selectedPhotoUrls = [];
-                    $scope.editedPhotoUrl = "";
-                    $scope.newPet.selectedCategory = 0;
-                    $scope.newPet.tagsSelection = [];
-                };
+                $scope.refreshCarousel();
 
                 $scope.addPhotoUrl = function () {
                     $scope.resetErrorMsgs();
@@ -79,7 +65,7 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                     });
                     PetFactory.update(pet,
                             function (resp, headers) {
-                                $scope.clear();
+                                // todo: display alert to confirm it s saved
                             },
                             function (err) {
                                 $scope.errorMsgsStatus.idAlreadyExists = true;
@@ -136,6 +122,7 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                                     }
                                 }).then(function (resp) {
                                     $timeout(function () {
+                                        $scope.refreshCarousel();
                                         $scope.log = 'file: ' +
                                                 resp.config.data.file.name +
                                                 ', Response: ' + JSON.stringify(resp.data) +
@@ -151,7 +138,7 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                             }
                         }
                     }
-                    $scope.refreshCarousel();
+                    
                 };
 
             }])

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html ng-app="PetstoreApp" lang="en">
-    <head>
-        <link rel="stylesheet" href="./css/font-awesome.css" type="text/css"/>
-        <link rel="stylesheet" href="./css/build.css" type="text/css"/>
-        <link rel="stylesheet" href="./css/image-uploader.css" type="text/css"/>
+<html ng-app="PetstoreApp" lang="en" > <!-- ng-csp="" -->
+    <head>     
     </head>
     <body>
         <div ng-controller="PetstoreController" class="container">
@@ -19,7 +16,7 @@
                         <li><a href="#!/searchbystatus">Search By Status</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 </div>
@@ -30,8 +27,6 @@
             <div class="row">
                 <div ng-view></div>
             </div>
-
-            
 
         </div>
 
@@ -46,7 +41,11 @@
         <script src="node_modules/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
         <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js" type="text/javascript"></script>
         <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-
+        
+        <link href="css/petstore.css" rel="stylesheet" type="text/css"/>
+        <link href="css/build.css" rel="stylesheet" type="text/css"/>
+        <link href="css/font-awesome.css" rel="stylesheet" type="text/css"/>
+        
         <script type="text/javascript" src="services.js" ></script>
         <script type="text/javascript" src="directives.js"></script>
         <script src="pet/form/new.js"></script>

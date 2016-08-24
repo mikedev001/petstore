@@ -7,17 +7,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "PetImage")
 public class PetImage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.AUTO, generator="pet_im_seq_gen")
+    @SequenceGenerator(name="pet_im_seq_gen", sequenceName="pet_im_seq")
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Lob

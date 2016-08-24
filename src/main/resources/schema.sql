@@ -13,3 +13,7 @@ alter table pet_tag add constraint FK_adbkv1wqtncws1pdy01j5ksur foreign key (tag
 alter table pet_tag add constraint FK_eig7rri11i9trdriw5gpv8wbt foreign key (pet_id) references pet;
 alter table urls add constraint FK_ca4uh20bv6uq4gxxui5sy6gmf foreign key (pet_id) references pet;
 create sequence pet_seq;
+
+create table pet_image (id bigint not null, content_type varchar(255), image blob(255), name varchar(255), pet_id bigint, primary key (id));
+
+create sequence pet_im_seq;

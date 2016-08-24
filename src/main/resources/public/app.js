@@ -37,6 +37,7 @@ petstoreApplication.controller("PetstoreController", [
 
         $scope.resetErrorMsgs();
 
+
         $scope.isNullOrEmptyOrUndefined = function (value) {
             if (value === "" || value === null || typeof value === "undefined") {
                 return true;
@@ -71,13 +72,27 @@ petstoreApplication.controller("PetstoreController", [
         $scope.dropdownsContent.statuses = ['', 'Available', 'Pending', 'Sold'];
 
         $scope.refreshCarousel = function () {
-            $http.get('photos/' + $scope.newPet.id).success(function (result) {
-                $scope.slides = result;
-            }).error(function (data, status, headers, config) {});
+            if ($scope.newPet.id) {
+                $http.get('photos/' + $scope.newPet.id).success(function (result) {
+                    $scope.carousel.slides = result;
+                }).error(function (data, status, headers, config) {});
+            }
         };
 
-        $scope.myInterval = 5000;
-        $scope.noWrapSlides = false;
-        $scope.active = 0;
+        $scope.carousel = {
+            myInterval: 5000,
+            noWrapSlides: false,
+            active: 0,
+            slides: []
+        };
+
+        $scope.initCarousel = function () {
+            $scope.carousel.myInterval = 5000;
+            $scope.carousel.noWrapSlides = false;
+            $scope.carousel.active = 0;
+            $scope.carousel.slides = [];
+        };
+
+        $scope.initCarousel();
     }
 ]);

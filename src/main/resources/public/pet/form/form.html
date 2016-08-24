@@ -13,7 +13,6 @@
 
         <fieldset>
 
-
             <div class="form-group">
                 <label for="petName">Name:</label>
                 <input id="petName" type="text" ng-model="newPet['name']" class="form-control" style="width:250px"/>
@@ -53,48 +52,49 @@
     <div class="col-md-4">
 
         <fieldset>
-            <div class="form-group">
-                <label for="">Photo Urls:</label>
+            <div class="form-group" ng-show="newPet.id">
+                <label for="">Photos:</label>
+
+                <!--
                 <input id="petPhotoUrls" type="text" ng-model="editedPhotoUrl" class="form-control" style="width:150;float:left;"/>
                 <button ng-click="addPhotoUrl()" class="btn btn-default" type="button">Add</button>
-
                 <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
                     <li>No Url Selected</li>
                 </ul>
-
                 <ul class="list-unstyled">
                     <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls']">
                         {{selectedPhotoUrl}}
                     </li>
                 </ul>
-            </div>
-            
-            <div class="form-group" ng-controller="ImageUploaderCtrl" ng-show="newPet.id">
-                <div ngf-drop ngf-select ng-model="files" class="drop-box" 
-                     ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
-                     accept="image/*,application/pdf" 
-                     ngf-pattern="'image/*,application/pdf'">Drop pdfs or images here or click to upload</div>
-                <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-                Files:
-                <ul>
-                    <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}</li>
-                </ul>
-                Upload Log:
-                <pre>{{log}}</pre>
-            </div>
-            
-            <div class="row" style="height: 305px" ng-show="(newPet.id) && (slides.length > 0)">
-                <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
-                    <div uib-slide ng-repeat="slide in slides track by slide.id" index="$index">
-                        <img ng-src="pet/photo/{{slide.id}}" style="margin:auto;">
-                        <div class="carousel-caption">
-                            <h4>Slide {{slide.id}}</h4>
-                            <p>{{slide.name}}</p>
-                        </div>
-                    </div>
+                -->
+
+                <div class="form-group" ng-controller="ImageUploaderCtrl" >
+                    <div ngf-drop ngf-select ng-model="files" class="drop-box" 
+                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                         accept="image/*" 
+                         ngf-pattern="'image/*'">Drop images here or click to upload</div>
+                    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
                 </div>
+
+                <ul>
+                    <li ng-repeat="slide in carousel.slides">
+                        {{slide.name}}
+                    </li>
+                </ul>
             </div>
+
         </fieldset>
+    </div>
+</div>
+
+<div class="row" style="height: 300px" ng-show="(newPet.id) && (carousel.slides.length > 0)">
+    <div uib-carousel active="carousel.active" interval="carousel.myInterval" no-wrap="carousel.noWrapSlides"> 
+        <div uib-slide ng-repeat="slide in carousel.slides" index="$index">
+            <img ng-src="pet/photo/{{slide.id}}" style="margin:auto;">
+            <div class="carousel-caption">
+                <p>{{slide.name}}</p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -110,7 +110,7 @@
             <button ng-click="savePet()" class="btn btn-default">Save</button>
         </span>
         <span>
-            <button ng-click="clear()" class="btn btn-default">Clear</button>
+            <button ng-click="clear()" class="btn btn-default" ng-hide="newPet.id" >Clear</button>
         </span>
     </div>
 </div>

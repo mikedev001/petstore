@@ -17,6 +17,7 @@ angular.module('petstore.new', ['ngRoute', 'ngFileUpload'])
             function ($scope, $resource, $http, $location, PetFactory) {
 
                 $scope.resetErrorMsgs();
+                $scope.initCarousel();
 
                 $scope.clear = function () {
                     $scope.resetErrorMsgs();
@@ -86,8 +87,7 @@ angular.module('petstore.new', ['ngRoute', 'ngFileUpload'])
                     });
                     PetFactory.create(pet,
                             function (resp, headers) {
-                                //$scope.pets.push(resp);
-                                $scope.clear();
+                                // todo: display alert to confirm it s saved
                             },
                             function (err) {
                                 $scope.errorMsgsStatus.idAlreadyExists = true;
@@ -144,6 +144,7 @@ angular.module('petstore.new', ['ngRoute', 'ngFileUpload'])
                                     }
                                 }).then(function (resp) {
                                     $timeout(function () {
+                                        $scope.refreshCarousel();
                                         $scope.log = 'file: ' +
                                                 resp.config.data.file.name +
                                                 ', Response: ' + JSON.stringify(resp.data) +
@@ -159,7 +160,7 @@ angular.module('petstore.new', ['ngRoute', 'ngFileUpload'])
                             }
                         }
                     }
-                    $scope.refreshCarousel();
+                    
                 };
 
             }])
