@@ -17,23 +17,32 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
             function ($scope, $resource, $http, $location, PetFactory) {
 
                 $scope.resetErrorMsgs();
+                $scope.resetInfoMsgs();
                 
                 $scope.refreshCarousel();
 
                 $scope.addPhotoUrl = function () {
                     $scope.resetErrorMsgs();
-                    if ($scope.isNullOrEmptyOrUndefined($scope.editedPhotoUrl)) {
+                    $scope.resetInfoMsgs();
+                    if ($scope.petForm.photoUrlField.$valid == false) {
+                        $scope.errorMsgsStatus.urlFieldNotValid = true;
+                        return;
+                    } else {
+                        $scope.errorMsgsStatus.urlFieldNotValid = false;
+                    }
+                    if ($scope.isNullOrEmptyOrUndefined($scope.carousel.editedPhotoUrl) == true) {
                         $scope.errorMsgsStatus.urlFieldEmpty = true;
                         return;
                     } else {
                         $scope.errorMsgsStatus.urlFieldEmpty = false;
                     }
-                    $scope.newPet.selectedPhotoUrls.push(angular.copy($scope.editedPhotoUrl));
-                    $scope.editedPhotoUrl = "";
+                    $scope.newPet.selectedPhotoUrls.push(angular.copy($scope.carousel.editedPhotoUrl));
+                    $scope.carousel.editedPhotoUrl = "";
                 };
 
                 $scope.savePet = function () {
                     $scope.resetErrorMsgs();
+                    $scope.resetInfoMsgs();
                     if ($scope.isNullOrEmptyOrUndefined($scope.newPet['name'])) {
                         $scope.errorMsgsStatus.nameMandatory = true;
                         return;
@@ -66,6 +75,7 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                     PetFactory.update(pet,
                             function (resp, headers) {
                                 // todo: display alert to confirm it s saved
+                                $scope.infoMsgsStatus.saved = true;
                             },
                             function (err) {
                                 $scope.errorMsgsStatus.idAlreadyExists = true;

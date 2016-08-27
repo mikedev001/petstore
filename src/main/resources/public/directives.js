@@ -8,3 +8,9 @@ petstoreDirectives.directive('alerts', function () {
         templateUrl: 'alerts.html'
     };
 });
+
+petstoreDirectives.directive('infos', function () {
+    return {
+        templateUrl: 'infos.html'
+    };
+});

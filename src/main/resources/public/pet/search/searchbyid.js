@@ -12,9 +12,11 @@ angular.module('petstore.searchbyid', ['ngRoute'])
         .controller('SearchByIdCtrl', ['$scope', 'PetFactory', '$location', function ($scope, PetFactory, $location) {
 
                 $scope.resetErrorMsgs();
+        $scope.resetInfoMsgs();
         
                 $scope.findPetById = function (petId) {
                     $scope.resetErrorMsgs();
+                    $scope.resetInfoMsgs();
                     if ($scope.isNullOrEmptyOrUndefined(petId)) {
                         $scope.errorMsgsStatus.noResultFound = true;
                         return;

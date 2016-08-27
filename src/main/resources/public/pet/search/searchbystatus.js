@@ -12,6 +12,7 @@ angular.module('petstore.searchbystatus', ['ngRoute'])
         .controller('SearchByStatusCtrl', ['$scope', 'PetFactory', '$http', function ($scope, PetFactory, $http) {
 
                 $scope.resetErrorMsgs();
+        $scope.resetInfoMsgs();
         
                 $scope.statusesSelection=[1,2,3];
                 $scope.csvStatuses="available,pending,sold";
@@ -19,6 +20,7 @@ angular.module('petstore.searchbystatus', ['ngRoute'])
 
                 $scope.deletePet = function (petId, petIndexInPets) {
                     $scope.resetErrorMsgs();
+                    $scope.resetInfoMsgs();
                     PetFactory.delete({id: petId}, function (result) {
                         $scope.pets.splice(petIndexInPets, 1);
                     }, function (data, status, headers, config) {});
@@ -26,6 +28,7 @@ angular.module('petstore.searchbystatus', ['ngRoute'])
 
                 $scope.findPetsByStatuses = function () {
                     $scope.resetErrorMsgs();
+                    $scope.resetInfoMsgs();
                     $scope.csvStatuses="";
                     angular.forEach($scope.statusesSelection, function (value, index) {
                         if (value==1) {

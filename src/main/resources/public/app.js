@@ -22,6 +22,7 @@ petstoreApplication.controller("PetstoreController", [
         $scope.errorMsgsStatus = {
             noResultFound: false,
             nameMandatory: false,
+            urlFieldNotValid: false,
             urlFieldEmpty: false,
             idAlreadyExists: false,
             statusFieldEmpty: false
@@ -30,13 +31,23 @@ petstoreApplication.controller("PetstoreController", [
         $scope.resetErrorMsgs = function () {
             $scope.errorMsgsStatus.noResultFound = false;
             $scope.errorMsgsStatus.nameMandatory = false;
+            $scope.errorMsgsStatus.urlFieldNotValid = false;
             $scope.errorMsgsStatus.urlFieldEmpty = false;
             $scope.errorMsgsStatus.idAlreadyExists = false;
             $scope.errorMsgsStatus.statusFieldEmpty = false;
         };
 
         $scope.resetErrorMsgs();
+        
+        $scope.infoMsgsStatus = {
+            saved: false
+        };
 
+        $scope.resetInfoMsgs = function () {
+            $scope.infoMsgsStatus.saved = false;
+        };
+
+        $scope.resetInfoMsgs();
 
         $scope.isNullOrEmptyOrUndefined = function (value) {
             if (value === "" || value === null || typeof value === "undefined") {
@@ -83,7 +94,8 @@ petstoreApplication.controller("PetstoreController", [
             myInterval: 5000,
             noWrapSlides: false,
             active: 0,
-            slides: []
+            slides: [],
+            editedPhotoUrl: ""
         };
 
         $scope.initCarousel = function () {
@@ -91,6 +103,7 @@ petstoreApplication.controller("PetstoreController", [
             $scope.carousel.noWrapSlides = false;
             $scope.carousel.active = 0;
             $scope.carousel.slides = [];
+            $scope.carousel.editedPhotoUrl = "";       
         };
 
         $scope.initCarousel();

@@ -1,3 +1,4 @@
+<form name="petForm">
 <div class="row">
     <div class="col-md-4">
         <fieldset>
@@ -52,21 +53,20 @@
     <div class="col-md-4">
 
         <fieldset>
-            <div class="form-group" ng-show="newPet.id">
-                <label for="">Photos:</label>
+            <label for="">Photos:</label>
 
-                <!--
-                <input id="petPhotoUrls" type="text" ng-model="editedPhotoUrl" class="form-control" style="width:150;float:left;"/>
-                <button ng-click="addPhotoUrl()" class="btn btn-default" type="button">Add</button>
-                <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
-                    <li>No Url Selected</li>
-                </ul>
-                <ul class="list-unstyled">
-                    <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls']">
-                        {{selectedPhotoUrl}}
-                    </li>
-                </ul>
-                -->
+            <input name="photoUrlField" type="url" ng-model="carousel.editedPhotoUrl" class="form-control" style="width:150;float:left;"/>
+            <button ng-click="addPhotoUrl()" class="btn btn-default" type="button">Add</button>
+            <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
+                <li>No Url Selected</li>
+            </ul>
+            <ul class="list-unstyled">
+                <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls'] track by $index">
+                    {{selectedPhotoUrl}}
+                </li>
+            </ul>
+
+            <div class="form-group" ng-show="newPet.id">
 
                 <div class="form-group" ng-controller="ImageUploaderCtrl" >
                     <div ngf-drop ngf-select ng-model="files" class="drop-box" 
@@ -114,3 +114,4 @@
         </span>
     </div>
 </div>
+</form>

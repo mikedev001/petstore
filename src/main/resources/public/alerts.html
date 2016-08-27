@@ -4,8 +4,11 @@
 <div ng-show="errorMsgsStatus.nameMandatory" class="alert alert-danger">
     The Name field is mandatory
 </div>
+<div ng-show="errorMsgsStatus.urlFieldNotValid" class="alert alert-danger">
+    Please enter a valid URL
+</div>
 <div ng-show="errorMsgsStatus.urlFieldEmpty" class="alert alert-danger">
-    The Photo Url field is empty
+    The URL field is empty
 </div>
 <div ng-show="errorMsgsStatus.statusFieldEmpty" class="alert alert-danger">
     The status field is empty
