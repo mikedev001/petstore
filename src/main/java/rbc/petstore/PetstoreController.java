@@ -1,7 +1,6 @@
 package rbc.petstore;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -121,6 +120,20 @@ public class PetstoreController {
         LOGGER.debug("Received multipart upload request for pet id:" + petId);
         try {
             petstoreService.uploadImage(uploadFile.getInputStream(), uploadFile.getContentType(), uploadFile.getOriginalFilename(), petId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/petdownload", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<?> download(@RequestParam(value = "url", defaultValue = "") String url, @RequestParam(value = "name", defaultValue = "") String name, @RequestParam(value = "petId", defaultValue = "") Long petId, HttpServletResponse response) throws Exception {
+        LOGGER.debug("Received download request for pet id:" + petId);
+        LOGGER.debug("url:" + url);
+        try {
+            petstoreService.downloadImage(url, name, petId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (final Exception e) {
             e.printStackTrace();

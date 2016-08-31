@@ -37,6 +37,17 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                         $scope.errorMsgsStatus.urlFieldEmpty = false;
                     }
                     $scope.newPet.selectedPhotoUrls.push(angular.copy($scope.carousel.editedPhotoUrl));
+                    
+                    $http.post("petdownload?url=" + encodeURIComponent($scope.carousel.editedPhotoUrl) + 
+                                                "&name=" +
+                                                "&petId=" + encodeURIComponent($scope.newPet.id))
+                            .success(function (result) {
+                                $scope.infoMsgsStatus.saved = true;
+                            })
+                            .error(function (data, status, headers, config) {
+                                $scope.errorMsgsStatus.idAlreadyExists = true;
+                            });
+                    
                     $scope.carousel.editedPhotoUrl = "";
                 };
 
@@ -74,7 +85,6 @@ angular.module('petstore.edit', ['ngRoute', 'ngFileUpload'])
                     });
                     PetFactory.update(pet,
                             function (resp, headers) {
-                                // todo: display alert to confirm it s saved
                                 $scope.infoMsgsStatus.saved = true;
                             },
                             function (err) {

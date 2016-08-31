@@ -2,7 +2,10 @@ package rbc.petstore;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,5 +183,35 @@ public class PetstoreServiceImpl implements PetstoreService {
             photosList.add(new PetImageLight(item.getId(), item.getName()));
         }
         return photosList;
+    }
+
+    @Override
+    @Transactional
+    public void downloadImage(String url, String name, Long petId) throws Exception {
+        LOGGER.debug("download image " + name + " for pet id " + petId);
+        final PetImage e = new PetImage();
+        e.setName(name);
+        e.setContentType("jpeg");
+        e.setPetId(petId);
+        final byte[] image = downloadFromUrl(new URL(url));
+        e.setImage(image);
+        petImageRepository.saveAndFlush(e);
+    }
+
+    private static byte[] downloadFromUrl(URL url) {
+        try {
+            URLConnection conn = url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+            conn.connect();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            IOUtils.copy(conn.getInputStream(), baos);
+
+            return baos.toByteArray();
+        } catch (IOException e) {
+            // Log error and return null or some default
+            return null;
+        }
     }
 }

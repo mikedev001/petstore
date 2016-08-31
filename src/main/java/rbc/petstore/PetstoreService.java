@@ -26,4 +26,6 @@ public interface PetstoreService {
     public PetImage findImageById(final Long imageId);
     
     public List<PetImageLight> getPhotosList(Long petId);
+    
+    public void downloadImage(String url, String name, Long petId) throws Exception;
 }

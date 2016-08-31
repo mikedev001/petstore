@@ -1,74 +1,65 @@
 <form name="petForm">
-<div class="row">
-    <div class="col-md-4">
-        <fieldset>
-            <legend>
-                Pet Creation Form
-            </legend>
-        </fieldset>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-
-        <fieldset>
-
-            <div class="form-group">
-                <label for="petName">Name:</label>
-                <input id="petName" type="text" ng-model="newPet['name']" class="form-control" style="width:250px"/>
-            </div>
-            <div class="form-group">
-                <label for="petCategory">Category:</label>
-
-                <select ng-model="newPet['selectedCategory']" ng-options="category.id as category.name for category in dropdownsContent.categories" class="form-control" style="width:125px"></select>
-
-            </div>
-            <div class="form-group">
-                <label for="petStatus">Status:</label>
-                <select id="petStatus" ng-model="newPet['status']" ng-options="status for status in dropdownsContent.statuses" class="form-control" style="width:125px"></select>
-            </div>
-
-        </fieldset>
+    <div class="row">
+        <div class="col-md-4">
+            <fieldset>
+                <legend>
+                    Pet Creation Form
+                </legend>
+            </fieldset>
+        </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="row">
+        <div class="col-md-4">
 
-        <fieldset>
+            <fieldset>
 
-            <div class="form-group">
-                <label for="">Tags:</label>
-                <div ng-repeat="tag in dropdownsContent.tags">
-                    <div class="checkbox checkbox-success">
-                        <input id="inlineCheckbox{{tag['id']}}" type="checkbox" class="styled" value="{{tag['id']}}" ng-checked="isCheckboxSelected(tag['id'])" ng-click="toggleTagsSelection(tag['id'])"/>
-                        <label for="inlineCheckbox{{tag['id']}}"></label>
-                        {{tag['name']}}
+                <div class="form-group">
+                    <label for="petName">Name:</label>
+                    <input id="petName" type="text" ng-model="newPet['name']" class="form-control" style="width:250px"/>
+                </div>
+                <div class="form-group">
+                    <label for="petCategory">Category:</label>
+
+                    <select ng-model="newPet['selectedCategory']" ng-options="category.id as category.name for category in dropdownsContent.categories" class="form-control" style="width:125px"></select>
+
+                </div>
+                <div class="form-group">
+                    <label for="petStatus">Status:</label>
+                    <select id="petStatus" ng-model="newPet['status']" ng-options="status for status in dropdownsContent.statuses" class="form-control" style="width:125px"></select>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <div class="col-md-4">
+
+            <fieldset>
+
+                <div class="form-group">
+                    <label for="">Tags:</label>
+                    <div ng-repeat="tag in dropdownsContent.tags">
+                        <div class="checkbox checkbox-success">
+                            <input id="inlineCheckbox{{tag['id']}}" type="checkbox" class="styled" value="{{tag['id']}}" ng-checked="isCheckboxSelected(tag['id'])" ng-click="toggleTagsSelection(tag['id'])"/>
+                            <label for="inlineCheckbox{{tag['id']}}"></label>
+                            {{tag['name']}}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </fieldset>
-    </div>
+            </fieldset>
+        </div>
 
-    <div class="col-md-4">
+        <div class="col-md-4" ng-show="newPet.id">
+            <fieldset>
+                <div class="form-group">
+                    <label for="">Photo URL:</label>
+                    <input name="photoUrlField" type="url" ng-model="carousel.editedPhotoUrl" class="form-control" style="width:100;float:left;"/>
+                    <button ng-click="addPhotoUrl()" class="btn btn-default" type="button" style="float:left">Add</button>
+                </div>
 
-        <fieldset>
-            <label for="">Photos:</label>
-
-            <input name="photoUrlField" type="url" ng-model="carousel.editedPhotoUrl" class="form-control" style="width:150;float:left;"/>
-            <button ng-click="addPhotoUrl()" class="btn btn-default" type="button">Add</button>
-            <ul ng-show="newPet['selectedPhotoUrls'].length == 0" class="list-unstyled">
-                <li>No Url Selected</li>
-            </ul>
-            <ul class="list-unstyled">
-                <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls'] track by $index">
-                    {{selectedPhotoUrl}}
-                </li>
-            </ul>
-
-            <div class="form-group" ng-show="newPet.id">
-
-                <div class="form-group" ng-controller="ImageUploaderCtrl" >
+                <div class="form-group" ng-controller="ImageUploaderCtrl" style="float:left;clear:both;">
+                    <label for="">Photo Upload:</label>
                     <div ngf-drop ngf-select ng-model="files" class="drop-box" 
                          ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
                          accept="image/*" 
@@ -76,42 +67,47 @@
                     <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
                 </div>
 
-                <ul>
-                    <li ng-repeat="slide in carousel.slides">
-                        {{slide.name}}
-                    </li>
-                </ul>
-            </div>
-
-        </fieldset>
+                <div class="form-group" style="float:left;clear:both;">
+                    <label for="">Photos:</label>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="selectedPhotoUrl in newPet['selectedPhotoUrls'] track by $index">
+                            {{selectedPhotoUrl}}
+                        </li>
+                        <li ng-repeat="slide in carousel.slides">
+                            {{slide.name}}
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+        </div>
     </div>
-</div>
 
-<div class="row" style="height: 300px" ng-show="(newPet.id) && (carousel.slides.length > 0)">
-    <div uib-carousel active="carousel.active" interval="carousel.myInterval" no-wrap="carousel.noWrapSlides"> 
-        <div uib-slide ng-repeat="slide in carousel.slides" index="$index">
-            <img ng-src="pet/photo/{{slide.id}}" style="margin:auto;">
-            <div class="carousel-caption">
-                <p>{{slide.name}}</p>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <span>
+                <button ng-click="savePet()" class="btn btn-default">Save</button>
+            </span>
+            <span>
+                <button ng-click="clear()" class="btn btn-default" ng-hide="newPet.id" >Clear</button>
+            </span>
+        </div>
+    </div>
+
+    <div class="row" style="height: 300px" ng-show="(newPet.id) && (carousel.slides.length > 0)">
+        <div uib-carousel active="carousel.active" interval="carousel.myInterval" no-wrap="carousel.noWrapSlides"> 
+            <div uib-slide ng-repeat="slide in carousel.slides" index="$index">
+                <img ng-src="pet/photo/{{slide.id}}" style="margin:auto;">
+                <div class="carousel-caption">
+                    <p>{{slide.name}}</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-
-    </div>
-    <div class="col-md-4">
-
-    </div>
-    <div class="col-md-4">
-        <span>
-            <button ng-click="savePet()" class="btn btn-default">Save</button>
-        </span>
-        <span>
-            <button ng-click="clear()" class="btn btn-default" ng-hide="newPet.id" >Clear</button>
-        </span>
-    </div>
-</div>
 </form>
